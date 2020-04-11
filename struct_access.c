@@ -6,28 +6,29 @@
 #include <stdarg.h>
 #include <stdbool.h>
 
+typedef char *string;
 typedef struct
 {
-    char *name;
-    char *sname;
+    string *name;
+    string *sname;
     unsigned short int id;
 } struct_person;
 
-#define tmp_buffer(length) ({             \
-    (char *)calloc(sizeof(char), length); \
+#define tmp_buffer(length) ({                 \
+    (string *)calloc(sizeof(string), length); \
 })
 
 //Aloca espaço de memória e define o valor passado por parâmetro
-#define str_malloc(str) ({                                        \
-    char *_tmp = (char *)malloc(sizeof(char) * (int)strlen(str)); \
-    strcpy(_tmp, str);                                            \
-    _tmp;                                                         \
+#define str_malloc(str) ({                                              \
+    string *_tmp = (string *)malloc(sizeof(string) * (int)strlen(str)); \
+    strcpy(_tmp, str);                                                  \
+    _tmp;                                                               \
 })
 
 #define struct_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr))
 
-static void alert(const char *fmt, ...)
+static void alert(const string *fmt, ...)
 {
     /*
         ... doing
@@ -43,16 +44,16 @@ static void alert(const char *fmt, ...)
     exit(true);
 }
 
-char *toString(struct_person *ptr)
+string *toString(struct_person *ptr)
 {
-    char *buffer = tmp_buffer(255);
+    string *buffer = tmp_buffer(255);
     sprintf(buffer, "Name:\t%s\nSName:\t%s\nId:\t%d\n",
             ptr->name, ptr->sname, ptr->id);
 
     return buffer;
 }
 
-int main(int argc, char **argv)
+int main(int argc, string **argv)
 {
     struct_person *ptr = struct_malloc(struct_person);
 
