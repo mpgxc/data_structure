@@ -9,26 +9,26 @@
 typedef char *string;
 typedef struct
 {
-    string *name;
-    string *sname;
+    string name;
+    string sname;
     unsigned short int id;
 } struct_person;
 
-#define tmp_buffer(length) ({                 \
-    (string *)calloc(sizeof(string), length); \
+#define tmp_buffer(length) ({              \
+    (string) calloc(sizeof(char), length); \
 })
 
 //Aloca espaço de memória e define o valor passado por parâmetro
-#define str_malloc(str) ({                                              \
-    string *_tmp = (string *)malloc(sizeof(string) * (int)strlen(str)); \
-    strcpy(_tmp, str);                                                  \
-    _tmp;                                                               \
+#define str_malloc(str) ({                                         \
+    string _tmp = (string)malloc(sizeof(char) * (int)strlen(str)); \
+    strcpy(_tmp, str);                                             \
+    _tmp;                                                          \
 })
 
 #define struct_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr))
 
-static void alert(const string *fmt, ...)
+static void alert(const string fmt, ...)
 {
     /*
         ... doing
@@ -44,9 +44,9 @@ static void alert(const string *fmt, ...)
     exit(true);
 }
 
-string *toString(struct_person *ptr)
+string toString(struct_person *ptr)
 {
-    string *buffer = tmp_buffer(255);
+    string buffer = tmp_buffer(255);
     sprintf(buffer, "Name:\t%s\nSName:\t%s\nId:\t%d\n",
             ptr->name, ptr->sname, ptr->id);
 
