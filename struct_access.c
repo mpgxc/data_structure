@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdbool.h>
 
 typedef struct
 {
@@ -10,6 +12,10 @@ typedef struct
     char *sname;
     unsigned short int id;
 } struct_person;
+
+#define tmp_buffer(length) ({             \
+    (char *)calloc(sizeof(char), length); \
+})
 
 //Aloca espaço de memória e define o valor passado por parâmetro
 #define str_malloc(str) ({                                        \
@@ -21,19 +27,29 @@ typedef struct
 #define struct_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr))
 
-void struct_show()
+static void alert(const char *fmt, ...)
 {
+    /*
+        ... doing
+    */
+    va_list args;
+
+    va_start(args, fmt);
+    vfprintf(stderr, fmt, args);
+
+    va_end(args);
+    fputc('\n', stderr);
+
+    exit(true);
 }
 
-void toString(struct_person *ptr)
+char *toString(struct_person *ptr)
 {
-    printf("Name: %s\n"
-           "\tSub Name: %s\n"
-           "\tId: %d\n",
+    char *buffer = tmp_buffer(255);
+    sprintf(buffer, "Name:\t%s\nSName:\t%s\nId:\t%d\n",
+            ptr->name, ptr->sname, ptr->id);
 
-           ptr->name,
-           ptr->sname,
-           ptr->id);
+    return buffer;
 }
 
 int main(int argc, char **argv)
@@ -44,7 +60,7 @@ int main(int argc, char **argv)
     ptr->sname = str_malloc("Pinto Garcia");
     ptr->id = 100;
 
-    toString(ptr);
-
+    puts(toString(ptr));
+    alert("Matando Processo: %d / %s %d Tests %s", 1, "Done", 2, "!");
     return 0;
 }
