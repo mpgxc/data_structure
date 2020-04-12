@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #define inlinetialize_fifo \
     NULL
@@ -7,6 +8,7 @@
 #define fifo_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr))
 
+typedef char *string;
 typedef struct this
 {
     int this_value;
@@ -25,7 +27,6 @@ fifo *fifo_push(fifo *origin_fifo, int value)
     /*Caso não seja o primeiro Node da Fila*/
     if (origin_fifo != NULL)
     {
-        printf("Opa2\n");
         /*Faz cópia da fila original*/
         fifo *cpy = origin_fifo;
         cpy->next = tmp;
@@ -44,7 +45,7 @@ void fifo_show(fifo *origin_fifo)
     }
 }
 
-int main(int argc, char **argv)
+int main(int argc, string *argv)
 {
 
     fifo *my_fifo = inlinetialize_fifo;
