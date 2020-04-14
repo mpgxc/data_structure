@@ -51,7 +51,7 @@ string toString(struct_person *ptr)
     return buffer;
 }
 
-int main(int argc, string **argv)
+int main(int argc, string *argv)
 {
     struct_person *ptr = struct_malloc(struct_person);
 

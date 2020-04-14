@@ -72,6 +72,7 @@ int linkedList_size(Node *self)
 {
     if (self != NULL)
         return linkedList_size(self->next) + 1;
+    return 0;
 }
 
 generic_linkedList *initialize_linkedList()
