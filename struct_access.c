@@ -45,7 +45,7 @@ static void alert(const string fmt, ...)
 string toString(struct_person *ptr)
 {
     string buffer = tmp_buffer(255);
-    sprintf(buffer, "Name:\t%s\nSName:\t%s\nId:\t%d\n",
+    sprintf(buffer, "name:\t%s\nsname:\t%s\nid:\t%d\n",
             ptr->name, ptr->sname, ptr->id);
 
     return buffer;
@@ -53,13 +53,41 @@ string toString(struct_person *ptr)
 
 int main(int argc, string *argv)
 {
-    struct_person *ptr = struct_malloc(struct_person);
+    //Opa #0
+    struct_person *person0 = struct_malloc(struct_person);
 
-    ptr->name = str_malloc("Mateus");
-    ptr->sname = str_malloc("Pinto Garcia");
-    ptr->id = 100;
+    person0->name = str_malloc("Mateus");
+    person0->sname = str_malloc("Pinto Garcia");
+    person0->id = 100;
 
-    puts(toString(ptr));
+    puts(toString(person0));
+
+    //Opa #1
+    struct_person person1[2];
+
+    person1[0].name = "Ana Clara";
+    person1[0].sname = "Pinto Garcia";
+    person1[0].id = 101;
+
+    puts(toString(&person1[0]));
+
+    //Opa #2
+
+    person1[1].name = str_malloc("Emiliana Vitoria");
+    person1[1].sname = str_malloc("Pinto Garcia");
+    person1[1].id = 102;
+
+    puts(toString(&person1[1]));
+
+    // Opa #3
+    struct_person person2 = {
+        .name = "Ana",
+        .sname = "Caroline",
+        .id = 103};
+
+    puts(toString(&person2));
+
     alert("Matando Processo: %d / %s %d Tests %s", 1, "Done", 2, "!");
+
     return 0;
 }
