@@ -16,6 +16,7 @@ typedef struct this
 }
 linkedList;
 
+
 linkedList *linkedList_append(linkedList *origin_linkedList, int value)
 {
     linkedList *tmp = linkedList_malloc(linkedList);

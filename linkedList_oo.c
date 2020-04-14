@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#define Each(node, list) \
-    for (node = list; node; node = node->next)
-
 #define linkedList_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr));
 
@@ -17,8 +14,6 @@ typedef struct self_node
 typedef struct self_queue
 {
     Node *head;
-    unsigned short int size_q;
-
     //Methods
     void (*push_head)(struct self_queue *, const int);
     void (*push_rear)(struct self_queue *, const int);
@@ -36,8 +31,24 @@ typedef struct self_queue
 
 void linkedList_push_rear(generic_linkedList *self, const int info)
 {
-    printf("Davisão do Elixir com Phoenix");
+
+    Node *node_next = linkedList_malloc(Node);
+
+    node_next->this_info = info;
+    node_next->next = NULL;
+
+    if (self->head != NULL)
+    {
+        Node *tmp_ptr = self->head;
+
+        while (tmp_ptr->next != NULL)
+            tmp_ptr = tmp_ptr->next;
+        tmp_ptr->next = node_next;
+    }
+    else
+        self->head = node_next;
 }
+
 void linkedList_push_head(generic_linkedList *self, const int info)
 {
     Node *node_next = linkedList_malloc(Node);
@@ -46,7 +57,6 @@ void linkedList_push_head(generic_linkedList *self, const int info)
     node_next->next = self->head;
 
     self->head = node_next;
-    self->size_q += 1;
 }
 
 void linkedList_show(Node *self)
@@ -61,9 +71,7 @@ void linkedList_show(Node *self)
 int linkedList_size(Node *self)
 {
     if (self != NULL)
-    {
         return linkedList_size(self->next) + 1;
-    }
 }
 
 generic_linkedList *initialize_linkedList()
@@ -71,7 +79,6 @@ generic_linkedList *initialize_linkedList()
     generic_linkedList *tmp = linkedList_malloc(generic_linkedList);
 
     tmp->head = NULL;
-    tmp->size_q = 0;
 
     //Iniciando os métodos de acesso
     tmp->push_head = &linkedList_push_head;
@@ -87,19 +94,15 @@ int main(int argc, char **argv)
 {
     generic_linkedList *ptr = initialize_linkedList();
 
-    ptr->push_head(ptr, 1);
-    ptr->push_head(ptr, 2);
-    ptr->push_head(ptr, 3);
-    ptr->push_head(ptr, 4);
-    ptr->push_head(ptr, 5);
+    for (int generic_value = 0; generic_value < 5; generic_value++)
+    {
+        ptr->push_head(ptr, generic_value);
+        ptr->push_rear(ptr, generic_value);
+    }
 
     ptr->show(ptr->head);
-    printf("Tamanho: %d\n", ptr->size(ptr->head));
 
-    Node *posix;
-    Each(posix, ptr->head)
-    {
-        printf("%d", posix->this_info);
-    }
+    printf("size_q: %d\n", ptr->size(ptr->head));
+
     return 0;
 }
