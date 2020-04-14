@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#define inlinetialize_fifo \
+#define inlinetialize_linkedList \
     NULL
 
-#define fifo_malloc(generic_ptr) \
+#define linkedList_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr))
 
 typedef char *string;
@@ -14,45 +14,50 @@ typedef struct this
     int this_value;
     struct this *next;
 }
-fifo;
+linkedList;
 
-fifo *fifo_push(fifo *origin_fifo, int value)
+linkedList *linkedList_append(linkedList *origin_linkedList, int value)
 {
-
-    fifo *tmp = fifo_malloc(fifo);
-
+    linkedList *tmp = linkedList_malloc(linkedList);
     tmp->this_value = value;
     tmp->next = NULL;
 
-    /*Caso não seja o primeiro Node da Fila*/
-    if (origin_fifo != NULL)
+    if (origin_linkedList != NULL)
     {
-        /*Faz cópia da fila original*/
-        fifo *cpy = origin_fifo;
-        cpy->next = tmp;
-        return cpy;
+        linkedList *aux = origin_linkedList;
+
+        while (aux->next != NULL)
+            aux = aux->next;
+        aux->next = tmp;
+        //O intuído é criar  um novo estado para a lista
+        //e não utilizar o ponteiro de referência para manipular a memória.
+        return origin_linkedList;
     }
     return tmp;
 }
 
-void fifo_show(fifo *origin_fifo)
+void linkedList_show(linkedList *origin_linkedList)
 {
-    if (origin_fifo != NULL)
+    if (origin_linkedList != NULL)
     {
-        printf("%d\n", origin_fifo->this_value);
-
-        fifo_show(origin_fifo->next);
+        printf("%d\n", origin_linkedList->this_value);
+        linkedList_show(origin_linkedList->next);
     }
 }
 
 int main(int argc, string *argv)
 {
+    //State Pattern > Imutabilidade
 
-    fifo *my_fifo = inlinetialize_fifo;
+    linkedList *my_linkedList = inlinetialize_linkedList;
 
-    my_fifo = fifo_push(my_fifo, 5);
-    my_fifo = fifo_push(my_fifo, 10);
+    my_linkedList = linkedList_append(my_linkedList, 1);
+    my_linkedList = linkedList_append(my_linkedList, 2);
+    my_linkedList = linkedList_append(my_linkedList, 3);
+    my_linkedList = linkedList_append(my_linkedList, 4);
+    my_linkedList = linkedList_append(my_linkedList, 5);
 
-    fifo_show(my_fifo);
+    linkedList_show(my_linkedList);
+
     return 0;
 }

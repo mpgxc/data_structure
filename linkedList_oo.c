@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define Each(node, list) \
+    for (node = list; node; node = node->next)
+
 #define linkedList_malloc(generic_ptr) \
     (generic_ptr *)malloc(sizeof(generic_ptr));
 
@@ -33,6 +36,7 @@ typedef struct self_queue
 
 void linkedList_push_rear(generic_linkedList *self, const int info)
 {
+    printf("Davisão do Elixir com Phoenix");
 }
 void linkedList_push_head(generic_linkedList *self, const int info)
 {
@@ -91,5 +95,11 @@ int main(int argc, char **argv)
 
     ptr->show(ptr->head);
     printf("Tamanho: %d\n", ptr->size(ptr->head));
+
+    Node *posix;
+    Each(posix, ptr->head)
+    {
+        printf("%d", posix->this_info);
+    }
     return 0;
 }
