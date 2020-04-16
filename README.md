@@ -7,6 +7,6 @@
 - gcc
 
 ```bash
-    $~ <COMPILADOR> -std=c99 -Wall file_name.c -o main
+    $~ <COMPILADOR> -std=c99 -Wall *.c -o main
     $~ ./main
 ```
